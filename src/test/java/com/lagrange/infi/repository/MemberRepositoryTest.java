@@ -5,8 +5,10 @@ import com.lagrange.infi.data.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 @Slf4j
+@SpringBootTest
 public class MemberRepositoryTest {
 
     @Autowired
@@ -21,8 +23,8 @@ public class MemberRepositoryTest {
                         .password("password")
                         .build();
 
-        memberRepository.save(memberE);
-        log.info(memberE.toString());
+        MemberE memberE1 = memberRepository.save(memberE);
+        log.info(memberE1.toString());
     }
 
 }

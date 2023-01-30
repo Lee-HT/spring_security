@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -20,19 +19,17 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class MemberE {
+@Table(name = "member")
+public class MemberE extends createdE{
 
-    @NotNull
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long idx;
 
-    @NotNull
-    @Column
+    @Column(unique = true,nullable = false,length = 20)
     private String id;
 
-    @NotNull
-    @Column
+    @Column(nullable = false,length = 30)
     private String password;
 
 }

@@ -1,6 +1,7 @@
 package com.lagrange.infi.controller;
 
-import com.lagrange.infi.data.dto.Members;
+import com.lagrange.infi.data.dto.MemberD;
+import com.lagrange.infi.data.entity.MemberE;
 import com.lagrange.infi.data.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +24,24 @@ public class LoginController {
     }
 
     @PostMapping("signup")
-    public ResponseEntity<Members> register(@Valid @RequestBody Members members){
+    public ResponseEntity<MemberD> register(@Valid @RequestBody MemberD memberD){
         try{
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(memberService.register(members.getId(),members.getPassword()));
+                    .body(memberService.register(memberD.getId(),memberD.getPassword()));
         } catch (Exception e) {
             log.info(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(members);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(memberD);
+        }
+    }
+
+    @PostMapping("update")
+    public ResponseEntity<MemberD> update(@Valid @RequestBody MemberD memberS){
+        try{
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(memberService.update(memberS.getIdx(),memberS.getId(),memberS.getPassword()));
+        }catch (Exception e) {
+            log.info(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(memberS);
         }
     }
 

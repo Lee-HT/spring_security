@@ -1,6 +1,6 @@
 package com.lagrange.infi.data.service.impl;
 
-import com.lagrange.infi.data.dto.Members;
+import com.lagrange.infi.data.dto.MemberD;
 import com.lagrange.infi.data.entity.MemberE;
 import com.lagrange.infi.data.repository.MemberRepository;
 import com.lagrange.infi.data.service.MemberService;
@@ -21,7 +21,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Members register(String id,String password){
+    public MemberD register(String id,String password){
         String encodedPassword = passwordEncoder.encode(password);
         MemberE memberE = MemberE.builder()
 //                .idx(1L)
@@ -30,7 +30,18 @@ public class MemberServiceImpl implements MemberService {
                 .build();
 
         memberRepository.save(memberE);
-        return new Members(id,password);
+        return new MemberD(memberE.getIdx(),id,password);
+    }
+
+    @Override
+    public MemberD update(Long idx, String id, String password){
+        MemberE memberE = MemberE.builder()
+                .idx(idx)
+                .id(id)
+                .password(password)
+                .build();
+        memberRepository.save(memberE);
+        return new MemberD(idx,id,password);
     }
 
     @Override

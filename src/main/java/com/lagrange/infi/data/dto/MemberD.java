@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Members {
+public class MemberD {
+
+    @NotNull
+    private Long idx;
 
     @NotNull
     private String id;
