@@ -1,24 +1,38 @@
 package com.lagrange.infi.data.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+@Entity
+@Builder
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class MemberE {
 
     @NotNull
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long idx;
 
     @NotNull
+    @Column
     private String id;
 
     @NotNull
+    @Column
     private String password;
 
 }

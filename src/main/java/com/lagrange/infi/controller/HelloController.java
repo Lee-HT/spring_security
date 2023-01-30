@@ -14,6 +14,8 @@ public class HelloController
     @GetMapping("test")
     @Operation(summary = "get 테스트",description = "Operation description")
     public String hello(){
+
+
         return "Hello";
     }
 }

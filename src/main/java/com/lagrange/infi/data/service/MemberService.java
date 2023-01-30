@@ -1,7 +1,9 @@
 package com.lagrange.infi.data.service;
 
+import com.lagrange.infi.data.dto.Members;
+
 public interface MemberService {
-    void register(String id,String password);
+    Members register(String id,String password);
 
     boolean login(String id,String password);
 
