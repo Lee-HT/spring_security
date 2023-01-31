@@ -2,19 +2,23 @@ package com.lagrange.infi.controller;
 
 import com.lagrange.infi.data.dto.MemberD;
 import com.lagrange.infi.data.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+
+@Controller
 @Slf4j
 @RequestMapping("/logins/")
+@Tag(name = "Member 관리",description = "")
 public class LoginController {
 
     private MemberService memberService;
@@ -25,6 +29,7 @@ public class LoginController {
     }
 
     @PostMapping("signup")
+    @Operation(summary = "회원가입",description = "")
     public ResponseEntity<MemberD> register(String id, String password){
         try{
             return ResponseEntity.status(HttpStatus.OK)
@@ -36,6 +41,7 @@ public class LoginController {
     }
 
     @PostMapping("update")
+    @Operation(summary = "회원 정보 수정",description = "")
     public ResponseEntity<MemberD> update(@Valid @RequestBody MemberD memberD){
         try{
             return ResponseEntity.status(HttpStatus.OK)
@@ -47,6 +53,7 @@ public class LoginController {
     }
 
     @PostMapping("signin")
+    @Operation(summary = "로그인",description = "")
     public ResponseEntity login(String id,String password){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(memberService.login(id,password));

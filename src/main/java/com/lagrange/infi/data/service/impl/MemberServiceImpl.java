@@ -43,8 +43,8 @@ public class MemberServiceImpl implements MemberService {
         String encodedPassword = passwordEncoder.encode(password);
         MemberE memberE = MemberE.builder()
                 .idx(idx)
-                .id(id)
-                .password(password)
+                .id(encodedId)
+                .password(encodedPassword)
                 .build();
         memberRepository.save(memberE);
         return new MemberD(idx,id,password);

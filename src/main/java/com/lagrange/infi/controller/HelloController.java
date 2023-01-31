@@ -2,11 +2,11 @@ package com.lagrange.infi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping(value = "/hello/")
 @Tag(name = "Hello",description = "Controller")
 public class HelloController
@@ -15,7 +15,6 @@ public class HelloController
     @Operation(summary = "get 테스트",description = "Operation description")
     public String hello(){
 
-
-        return "Hello";
+        return "hello";
     }
 }
