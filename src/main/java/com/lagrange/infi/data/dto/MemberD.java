@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MemberD {
 
-    @NotNull
     private Long idx;
 
     @NotNull

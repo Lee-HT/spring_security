@@ -1,7 +1,6 @@
 package com.lagrange.infi.controller;
 
 import com.lagrange.infi.data.dto.MemberD;
-import com.lagrange.infi.data.entity.MemberE;
 import com.lagrange.infi.data.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ public class LoginController {
     }
 
     @PostMapping("signup")
-    public ResponseEntity<MemberD> register(@RequestBody String id, @RequestBody String password){
+    public ResponseEntity<MemberD> register(String id, String password){
         try{
             return ResponseEntity.status(HttpStatus.OK)
                     .body(memberService.register(id,password));
@@ -48,7 +47,7 @@ public class LoginController {
     }
 
     @PostMapping("signin")
-    public ResponseEntity login(@RequestBody String id,String password){
+    public ResponseEntity login(String id,String password){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(memberService.login(id,password));
         } catch (Exception e) {

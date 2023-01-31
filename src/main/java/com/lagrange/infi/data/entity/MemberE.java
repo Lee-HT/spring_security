@@ -26,10 +26,10 @@ public class MemberE extends createdE{
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long idx;
 
-    @Column(unique = true,nullable = false,length = 20)
+    @Column(unique = true,nullable = false)
     private String id;
 
-    @Column(nullable = false,length = 30)
+    @Column(nullable = false)
     private String password;
 
 }

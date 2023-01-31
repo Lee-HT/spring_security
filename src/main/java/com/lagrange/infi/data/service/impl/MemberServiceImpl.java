@@ -24,12 +24,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberD register(String id,String password){
+        String encodedId = passwordEncoder.encode(id);
         String encodedPassword = passwordEncoder.encode(password);
         log.info(id,password);
         MemberE memberE = MemberE.builder()
 //                .idx(1L)
-                .id(id)
-                .password(password)
+                .id(encodedId)
+                .password(encodedPassword)
                 .build();
 
         memberRepository.save(memberE);
@@ -38,6 +39,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberD update(Long idx, String id, String password){
+        String encodedId = passwordEncoder.encode(id);
+        String encodedPassword = passwordEncoder.encode(password);
         MemberE memberE = MemberE.builder()
                 .idx(idx)
                 .id(id)
