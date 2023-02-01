@@ -32,4 +32,10 @@ public class MemberE extends createdE{
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String role;
+
 }

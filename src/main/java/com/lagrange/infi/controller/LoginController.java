@@ -30,13 +30,13 @@ public class LoginController {
 
     @PostMapping("signup")
     @Operation(summary = "회원가입",description = "")
-    public ResponseEntity<MemberD> register(String id, String password){
+    public ResponseEntity<MemberD> register(String id, String password, String email){
         try{
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(memberService.register(id,password));
+                    .body(memberService.register(id,password,email));
         } catch (Exception e) {
             log.info(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MemberD(0L,id,password));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MemberD(0L,id,password,email));
         }
     }
 
@@ -45,7 +45,8 @@ public class LoginController {
     public ResponseEntity<MemberD> update(@Valid @RequestBody MemberD memberD){
         try{
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(memberService.update(memberD.getIdx(),memberD.getId(),memberD.getPassword()));
+                    .body(memberService.update(memberD.getIdx(),memberD.getId(),memberD.getPassword(),
+                            memberD.getEmail()));
         }catch (Exception e) {
             log.info(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(memberD);
@@ -62,6 +63,12 @@ public class LoginController {
             return new ResponseEntity("fail",
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("test")
+    @Operation(summary = "repository",description = "테스트용")
+    public ResponseEntity test(Long idx){
+        return new ResponseEntity(memberService.getidx(idx),HttpStatus.OK);
     }
 
 }

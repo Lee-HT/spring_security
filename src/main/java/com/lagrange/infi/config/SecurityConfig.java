@@ -14,7 +14,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private static final String[] PERMIT_URL_ARRAY = {
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/hello/test"
     };
 
     @Bean
@@ -29,15 +30,19 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .cors().disable()
                 .csrf().disable()
-                .formLogin(Customizer.withDefaults())
-//                .loginPage("/login")
+                .formLogin()
+                .loginPage("/df/login")
 //                .defaultSuccessUrl("/hello/test")
 //                .and().logout()
 //                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 //                .logoutSuccessUrl("/hello/test")
 //                .invalidateHttpSession(true)
 //                .headers().frameOptions().disable()
+                .and()
                 .authorizeHttpRequests()
+                .requestMatchers("/user/**").authenticated()
+                .requestMatchers("/manager/**").hasRole("ADMIN or MANAGER")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers(PERMIT_URL_ARRAY).permitAll()
                 .anyRequest().permitAll();
         return httpSecurity.build();
