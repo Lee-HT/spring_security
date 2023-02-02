@@ -14,8 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private static final String[] PERMIT_URL_ARRAY = {
             "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/hello/test"
+            "/swagger-ui/**"
     };
 
     @Bean
@@ -30,14 +29,13 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .cors().disable()
                 .csrf().disable()
+
                 .formLogin()
                 .loginPage("/df/login")
-//                .defaultSuccessUrl("/hello/test")
-//                .and().logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/hello/test")
-//                .invalidateHttpSession(true)
-//                .headers().frameOptions().disable()
+                .usernameParameter("id")
+                .loginProcessingUrl("/logins/signin")
+                .defaultSuccessUrl("/")
+
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/user/**").authenticated()

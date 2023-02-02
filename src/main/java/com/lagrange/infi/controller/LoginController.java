@@ -30,38 +30,45 @@ public class LoginController {
 
     @PostMapping("signup")
     @Operation(summary = "회원가입",description = "")
-    public ResponseEntity<MemberD> register(String id, String password, String email){
+    public String register(String id, String password, String email){
         try{
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(memberService.register(id,password,email));
+            log.info(ResponseEntity.status(HttpStatus.OK)
+                    .body(memberService.register(id,password,email)).toString());
+            return "redirect:/df/registry";
         } catch (Exception e) {
             log.info(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MemberD(0L,id,password,email));
+            log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MemberD(0L,id,password,email)).toString());
+            return "redirect:/df/register";
         }
     }
 
     @PostMapping("update")
     @Operation(summary = "회원 정보 수정",description = "")
-    public ResponseEntity<MemberD> update(@Valid @RequestBody MemberD memberD){
+    public String update(@Valid @RequestBody MemberD memberD){
         try{
-            return ResponseEntity.status(HttpStatus.OK)
+            log.info(ResponseEntity.status(HttpStatus.OK)
                     .body(memberService.update(memberD.getIdx(),memberD.getId(),memberD.getPassword(),
-                            memberD.getEmail()));
+                            memberD.getEmail())).toString());
+            return "redirect:/df/login";
         }catch (Exception e) {
             log.info(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(memberD);
+            log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(memberD).toString());
+            return "redirect:/df/registry";
         }
     }
 
     @PostMapping("signin")
     @Operation(summary = "로그인",description = "")
-    public ResponseEntity login(String id,String password){
+    public String login(String id,String password){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(memberService.login(id,password));
+            log.info(ResponseEntity.status(HttpStatus.OK).body(memberService.login(id,password)).toString());
+            return "redirect:/df/login";
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ResponseEntity("fail",
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+            log.info(new ResponseEntity("fail",
+                    HttpStatus.INTERNAL_SERVER_ERROR).toString());
+            return "redirect:/df/login";
         }
     }
 
