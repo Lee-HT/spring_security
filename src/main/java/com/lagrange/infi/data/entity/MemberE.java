@@ -24,10 +24,10 @@ public class MemberE extends createdE{
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long idx;
+    private Long id;
 
     @Column(unique = true,nullable = false)
-    private String id;
+    private String userid;
 
     @Column(nullable = false)
     private String password;

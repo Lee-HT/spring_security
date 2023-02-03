@@ -30,15 +30,15 @@ public class LoginController {
 
     @PostMapping("signup")
     @Operation(summary = "회원가입",description = "")
-    public String register(String id, String password, String email){
+    public String register(String userid, String password, String email){
         try{
             log.info(ResponseEntity.status(HttpStatus.OK)
-                    .body(memberService.register(id,password,email)).toString());
-            return "redirect:/df/registry";
+                    .body(memberService.register(userid,password,email)).toString());
+            return "redirect:/df/login";
         } catch (Exception e) {
             log.info(e.getMessage());
             log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new MemberD(0L,id,password,email)).toString());
+                    .body(new MemberD(0L,userid,password,email)).toString());
             return "redirect:/df/register";
         }
     }
@@ -48,7 +48,7 @@ public class LoginController {
     public String update(@Valid @RequestBody MemberD memberD){
         try{
             log.info(ResponseEntity.status(HttpStatus.OK)
-                    .body(memberService.update(memberD.getIdx(),memberD.getId(),memberD.getPassword(),
+                    .body(memberService.update(memberD.getId(),memberD.getUserid(),memberD.getPassword(),
                             memberD.getEmail())).toString());
             return "redirect:/df/login";
         }catch (Exception e) {
@@ -60,9 +60,9 @@ public class LoginController {
 
     @PostMapping("signin")
     @Operation(summary = "로그인",description = "")
-    public String login(String id,String password){
+    public String login(String userid,String password){
         try{
-            log.info(ResponseEntity.status(HttpStatus.OK).body(memberService.login(id,password)).toString());
+            log.info(ResponseEntity.status(HttpStatus.OK).body(memberService.login(userid,password)).toString());
             return "redirect:/df/login";
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -74,8 +74,8 @@ public class LoginController {
 
     @PostMapping("test")
     @Operation(summary = "repository",description = "테스트용")
-    public ResponseEntity test(Long idx){
-        return new ResponseEntity(memberService.getidx(idx),HttpStatus.OK);
+    public ResponseEntity test(Long id){
+        return new ResponseEntity(memberService.getId(id),HttpStatus.OK);
     }
 
 }

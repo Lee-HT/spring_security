@@ -14,10 +14,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MemberD {
 
-    private Long idx;
+    private Long id;
 
     @NotNull
-    private String id;
+    private String userid;
 
     @NotNull
     private String password;

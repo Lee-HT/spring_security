@@ -26,54 +26,53 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberD register(String id,String password,String email){
-        if (memberRepository.existsById(id)){
-            log.info(id + "이미 있는 id");
+    public MemberD register(String userid,String password,String email){
+        if (memberRepository.existsByUserid(userid)){
+            log.info(userid + "이미 있는 id");
         }
 
         String encodedPassword = passwordEncoder.encode(password);
-        log.info(id + " " + password);
+        log.info(userid + " " + password);
         MemberE memberE = MemberE.builder()
-//                .idx(1L)
-                .id(id)
+                .userid(userid)
                 .password(encodedPassword)
                 .email(email)
                 .role(user_role)
                 .build();
 
         memberRepository.save(memberE);
-        return new MemberD(memberE.getIdx(),id,password,email);
+        return new MemberD(memberE.getId(),userid,password,email);
     }
 
     @Override
-    public MemberD update(Long idx, String id, String password,String email){
+    public MemberD update(Long id, String userid, String password,String email){
         String encodedPassword = passwordEncoder.encode(password);
         MemberE memberE = MemberE.builder()
-                .idx(idx)
                 .id(id)
+                .userid(userid)
                 .password(encodedPassword)
                 .email(email)
                 .role(user_role)
                 .build();
 
         memberRepository.save(memberE);
-        return new MemberD(idx,id,password,email);
+        return new MemberD(id,userid,password,email);
     }
 
     @Override
-    public boolean login(String id,String password){
-        if (passwordEncoder.matches(password,memberRepository.findById(id).getPassword())) {
+    public boolean login(String userid,String password){
+        if (passwordEncoder.matches(password,memberRepository.findByUserid(userid).getPassword())) {
             return true;
         }
         return false;
     }
 
     @Override
-    public MemberD getidx(Long idx){
-        MemberE memberE = memberRepository.findByIdx(idx);
+    public MemberD getId(Long id){
+        MemberE memberE = memberRepository.findByid(id);
         MemberD memberD = MemberD.builder()
-                .idx(memberE.getIdx())
                 .id(memberE.getId())
+                .userid(memberE.getUserid())
                 .password(memberE.getPassword())
                 .email(memberE.getEmail())
                 .build();
