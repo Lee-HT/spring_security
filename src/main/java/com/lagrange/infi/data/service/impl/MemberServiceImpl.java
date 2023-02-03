@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private MemberRepository memberRepository;
-    private String user_role = "user";
+    private String user_role = "USER";
 
     @Autowired
     public MemberServiceImpl(PasswordEncoder passwordEncoder,MemberRepository memberRepository){
@@ -42,6 +42,18 @@ public class MemberServiceImpl implements MemberService {
 
         memberRepository.save(memberE);
         return new MemberD(memberE.getId(),userid,password,email);
+    }
+
+    @Override
+    public boolean unregister(String userid,String password){
+        MemberE memberE = memberRepository.findByUserid(userid);
+
+        if (passwordEncoder.matches(password,memberE.getPassword())){
+            log.info(memberE.toString());
+            memberRepository.deleteByUserid(userid);
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -22,7 +22,7 @@ spring:
     show-sql: true
     #create = sessionFactory가 올라갈 때 테이블 지우고 새로 생성
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
   security:
     user:

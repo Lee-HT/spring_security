@@ -16,7 +16,7 @@ public class PrincipleDetailsService implements UserDetailsService {
     private MemberRepository memberRepository;
 
     public UserDetails loadUserByUsername(String userid) throws UsernameNotFoundException {
-        log.info("username = "+userid);
+        log.info("userid = "+userid);
         MemberE memberE = memberRepository.findByUserid(userid);
         if(memberE != null){
             return new PrincipalDetails(memberE);

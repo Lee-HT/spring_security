@@ -29,7 +29,7 @@ public class LoginController {
     }
 
     @PostMapping("signup")
-    @Operation(summary = "회원가입",description = "")
+    @Operation(summary = "회원가입",description = "userid. password, email")
     public String register(String userid, String password, String email){
         try{
             log.info(ResponseEntity.status(HttpStatus.OK)
@@ -44,7 +44,7 @@ public class LoginController {
     }
 
     @PostMapping("update")
-    @Operation(summary = "회원 정보 수정",description = "")
+    @Operation(summary = "회원 정보 수정",description = "id, userid, password, email")
     public String update(@Valid @RequestBody MemberD memberD){
         try{
             log.info(ResponseEntity.status(HttpStatus.OK)
@@ -53,22 +53,38 @@ public class LoginController {
             return "redirect:/df/login";
         }catch (Exception e) {
             log.info(e.getMessage());
-            log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(memberD).toString());
+            log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(memberD).toString());
             return "redirect:/df/registry";
         }
     }
 
     @PostMapping("signin")
-    @Operation(summary = "로그인",description = "")
+    @Operation(summary = "로그인",description = "userid, password")
     public String login(String userid,String password){
         try{
-            log.info(ResponseEntity.status(HttpStatus.OK).body(memberService.login(userid,password)).toString());
+            log.info(ResponseEntity.status(HttpStatus.OK)
+                    .body(memberService.login(userid,password)).toString());
             return "redirect:/df/login";
         } catch (Exception e) {
             log.error(e.getMessage());
-            log.info(new ResponseEntity("fail",
-                    HttpStatus.INTERNAL_SERVER_ERROR).toString());
+            log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("fail").toString());
             return "redirect:/df/login";
+        }
+    }
+
+    @PostMapping("unregister")
+    @Operation(summary = "회원탈퇴",description = "userid, password")
+    public String unregister(String userid,String password){
+        try{
+            log.info(ResponseEntity.status(HttpStatus.OK)
+                    .body(memberService.unregister(userid,password)).toString());
+            return "redirect:/df/login";
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("fail").toString());
+            return "redirect:/";
         }
     }
 

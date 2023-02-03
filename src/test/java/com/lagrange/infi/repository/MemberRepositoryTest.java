@@ -19,8 +19,8 @@ public class MemberRepositoryTest {
     public void create(){
         MemberE memberE =
                 MemberE.builder()
-                        .idx(1L)
-                        .id("id")
+                        .id(1L)
+                        .userid("id")
                         .password("password")
                         .build();
 

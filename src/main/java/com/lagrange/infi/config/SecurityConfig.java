@@ -2,7 +2,7 @@ package com.lagrange.infi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true,securedEnabled = true) //특정 주소 접근시 권한, 인증을 위한 어노테이션
 public class SecurityConfig {
     private static final String[] PERMIT_URL_ARRAY = {
             "/v3/api-docs/**",
@@ -32,7 +33,7 @@ public class SecurityConfig {
 
                 .formLogin()
                 .loginPage("/df/login")
-                .usernameParameter("id")
+                .usernameParameter("userid")
                 .loginProcessingUrl("/logins/signin")
                 .defaultSuccessUrl("/")
 

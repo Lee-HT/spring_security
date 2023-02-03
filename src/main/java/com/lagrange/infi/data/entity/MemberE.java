@@ -20,7 +20,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Table(name = "member")
-public class MemberE extends createdE{
+public class
+MemberE extends createdE{
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
