@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private MemberRepository memberRepository;
-    private String user_role = "USER";
+
+    //DB엔 ROLE 붙어서 저장 해야함
+    private String user_role = "ROLE_USER";
 
     @Autowired
     public MemberServiceImpl(PasswordEncoder passwordEncoder,MemberRepository memberRepository){

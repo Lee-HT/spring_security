@@ -24,22 +24,28 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
-        httpSecurity.httpBasic().disable();
-        httpSecurity.cors().disable();
-        httpSecurity.csrf().disable();
+        http.httpBasic().disable();
+        http.cors().disable();
+        http.csrf().disable();
 
-        httpSecurity.formLogin()
-                //custom login page
+        http.formLogin()
+                // custom login page
                 .loginPage("/df/login")
                 .usernameParameter("userid")
                 .loginProcessingUrl("/logins/signin")
                 .defaultSuccessUrl("/")
 
+                // logout
+                .and()
+                .logout()
+                .logoutSuccessUrl("/df/login")
+
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/**").authenticated()
+                        // ** config엔 ROLE_이 없어야 하고 DB엔 ROLE_이 접두사로 붙어야함
                         .requestMatchers("/manager/**").hasAnyRole("MANAGER","ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 //                .requestMatchers(PERMIT_URL_ARRAY).permitAll()
@@ -47,7 +53,7 @@ public class SecurityConfig {
                 );
 
 
-        return httpSecurity.build();
+        return http.build();
     }
 
 

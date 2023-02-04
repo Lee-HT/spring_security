@@ -11,7 +11,6 @@ public class PrincipalDetails implements UserDetails {
 
     private MemberE memberE;
 
-    @Autowired
     public PrincipalDetails(MemberE memberE){
         this.memberE = memberE;
     }
