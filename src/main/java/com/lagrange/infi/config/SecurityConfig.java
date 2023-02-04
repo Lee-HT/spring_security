@@ -26,24 +26,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
 
-        httpSecurity
-                .httpBasic().disable()
-                .cors().disable()
-                .csrf().disable()
+        httpSecurity.httpBasic().disable();
+        httpSecurity.cors().disable();
+        httpSecurity.csrf().disable();
 
-                .formLogin()
+        httpSecurity.formLogin()
+                //custom login page
                 .loginPage("/df/login")
                 .usernameParameter("userid")
                 .loginProcessingUrl("/logins/signin")
                 .defaultSuccessUrl("/")
 
                 .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/user/**").authenticated()
-                .requestMatchers("/manager/**").hasRole("ADMIN or MANAGER")
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers(PERMIT_URL_ARRAY).permitAll()
-                .anyRequest().permitAll();
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/manager/**").hasAnyRole("MANAGER","ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+//                .requestMatchers(PERMIT_URL_ARRAY).permitAll()
+                        .anyRequest().permitAll()
+                );
+
+
         return httpSecurity.build();
     }
 
