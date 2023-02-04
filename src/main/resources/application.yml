@@ -1,6 +1,8 @@
 server:
   port: 7040
   servlet:
+    # default 값
+    context-path: /
     encoding:
       enabled: true
       charset: UTF-8
@@ -16,11 +18,11 @@ spring:
 #    password: sk91xzk33sg.A
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    #hibernate Naming strategies
+    # hibernate Naming strategies
     physical-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
     database: mysql
     show-sql: true
-    #create = sessionFactory가 올라갈 때 테이블 지우고 새로 생성
+    # create = sessionFactory가 올라갈 때 테이블 지우고 새로 생성
     hibernate:
       ddl-auto: update
 
@@ -29,21 +31,22 @@ spring:
       name: user
       password: s93kwlsld
 
+         #view 설정
+#  mvc:
+#    view:
+#      # /templates/(Controller return).mustache
+#      prefix: /templates/
+#      suffix: .mustache
+
 springdoc:
   packages-to-scan:
     com.lagrange.infi
   swagger-ui:
 #    enabled: false
     path: /swagger-ui
-#    default url disable
+    # default url disable
     disable-swagger-default-url: true
   api-docs:
 #    enabled: false
     path: /api-docs
 
-# view 설정
-#mvc:
-#  view:
-     #/templates/(Controller return).mustache
-#    prefix: /templates/
-#    suffix: .mustache
