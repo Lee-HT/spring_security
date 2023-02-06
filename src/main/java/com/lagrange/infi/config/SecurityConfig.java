@@ -33,6 +33,7 @@ public class SecurityConfig {
         http.formLogin()
                 // custom login page
                 .loginPage("/df/login")
+                //username parameter 재지정
                 .usernameParameter("userid")
                 .loginProcessingUrl("/logins/signin")
                 .defaultSuccessUrl("/")
