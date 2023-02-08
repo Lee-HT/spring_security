@@ -7,9 +7,9 @@ spring:
         registration:
           google:
             client-id: 929635782528-m4oo6i54r1qipoq577jl3p3eopsqn0s7.apps.googleusercontent.com
-            client-secret: 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
+            client-secret: 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
             scope:
               - email
               - profile
             #redirectUri 주소 변경
-            RedirectUri: http://localhost:7040/logins/oauth2/code/google
+            RedirectUri: http://localhost:7040/login/oauth2/code/google

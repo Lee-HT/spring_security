@@ -34,12 +34,12 @@ public class LoginController {
         try{
             log.info(ResponseEntity.status(HttpStatus.OK)
                     .body(memberService.register(userid,password,email)).toString());
-            return "redirect:/df/login";
+            return "redirect:/login/login";
         } catch (Exception e) {
             log.info(e.getMessage());
             log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new MemberD(0L,userid,password,email)).toString());
-            return "redirect:/df/register";
+            return "redirect:/login/register";
         }
     }
 
@@ -50,12 +50,12 @@ public class LoginController {
             log.info(ResponseEntity.status(HttpStatus.OK)
                     .body(memberService.update(memberD.getId(),memberD.getUserid(),memberD.getPassword(),
                             memberD.getEmail())).toString());
-            return "redirect:/df/login";
+            return "redirect:/login/login";
         }catch (Exception e) {
             log.info(e.getMessage());
             log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(memberD).toString());
-            return "redirect:/df/registry";
+            return "redirect:/login/registry";
         }
     }
 
@@ -70,7 +70,7 @@ public class LoginController {
             log.error(e.getMessage());
             log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("fail").toString());
-            return "redirect:/df/login";
+            return "redirect:/login/login";
         }
     }
 
@@ -80,7 +80,7 @@ public class LoginController {
         try{
             log.info(ResponseEntity.status(HttpStatus.OK)
                     .body(memberService.unregister(userid,password)).toString());
-            return "redirect:/df/login";
+            return "redirect:/login/login";
         } catch (Exception e) {
             log.error(e.getMessage());
             log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("fail").toString());
