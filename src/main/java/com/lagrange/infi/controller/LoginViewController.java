@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
-@RequestMapping(value = "/df/")
+@RequestMapping(value = "/login/")
 @Tag(name = "LoginView Controller",description = "테스트용")
 public class LoginViewController
 {

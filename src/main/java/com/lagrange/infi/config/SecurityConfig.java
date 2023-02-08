@@ -1,5 +1,7 @@
 package com.lagrange.infi.config;
 
+import com.lagrange.infi.config.oauth.PrincipalOauth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -13,6 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true,securedEnabled = true) //특정 주소 접근시 권한, 인증을 위한 어노테이션
 public class SecurityConfig {
+
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
+
     private static final String[] PERMIT_URL_ARRAY = {
             "/v3/api-docs/**",
             "/swagger-ui/**"
@@ -32,7 +38,7 @@ public class SecurityConfig {
 
         http.formLogin()
                 // custom login page
-                .loginPage("/df/login")
+                .loginPage("/login/login")
                 //username parameter 재지정
                 .usernameParameter("userid")
                 .loginProcessingUrl("/logins/signin")
@@ -52,6 +58,13 @@ public class SecurityConfig {
 //                .requestMatchers(PERMIT_URL_ARRAY).permitAll()
                         .anyRequest().permitAll()
                 );
+
+        http.oauth2Login()
+                .loginPage("/login/login")
+//                .defaultSuccessUrl("/")
+//                .failureUrl("/login/login")
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
 
 
         return http.build();

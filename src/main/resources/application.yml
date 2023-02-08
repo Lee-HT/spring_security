@@ -12,6 +12,8 @@ server:
       matching-strategy: ant_path_matcher
 
 spring:
+  profiles:
+    include: oauth
   datasource:
     url: jdbc:mysql://localhost:5281/infid?characterEncoding=utf8&ServerTimezone=UTC
 #    username: root
@@ -49,4 +51,5 @@ springdoc:
   api-docs:
 #    enabled: false
     path: /api-docs
+
 

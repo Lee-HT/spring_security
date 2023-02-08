@@ -1,0 +1,15 @@
+#application.yml에 spring.profiles.include = oauth로 적용
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 929635782528-m4oo6i54r1qipoq577jl3p3eopsqn0s7.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+            #redirectUri 주소 변경
+            RedirectUri: http://localhost:7040/logins/oauth2/code/google
