@@ -39,4 +39,10 @@ MemberE extends createdE{
     @Column(nullable = false)
     private String role;
 
+    @Column(nullable = false)
+    private String provider;
+
+    @Column(nullable = false)
+    private String providerid;
+
 }
