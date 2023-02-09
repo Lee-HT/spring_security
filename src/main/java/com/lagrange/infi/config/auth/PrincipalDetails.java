@@ -3,16 +3,33 @@ package com.lagrange.infi.config.auth;
 import com.lagrange.infi.data.entity.MemberE;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Map;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private MemberE memberE;
+    private Map<String,Object> attribute;
 
+    //default login
     public PrincipalDetails(MemberE memberE){
         this.memberE = memberE;
+    }
+
+    //oauth login
+    //Constructor overload
+    public PrincipalDetails(MemberE memberE, Map<String, Object> attribute) {
+        this.memberE = memberE;
+        this.attribute = attribute;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attribute;
     }
 
     // 해당 유저의 권한 return
@@ -58,5 +75,10 @@ public class PrincipalDetails implements UserDetails {
         memberE.getUpdateAt();
         return true;
     };
+
+    @Override
+    public String getName() {
+        return null;
+    }
 
 }

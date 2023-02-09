@@ -1,5 +1,6 @@
 package com.lagrange.infi.controller;
 
+import com.lagrange.infi.config.auth.PrincipalDetails;
 import com.lagrange.infi.data.dto.MemberD;
 import com.lagrange.infi.data.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,10 +10,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -86,6 +93,30 @@ public class LoginController {
             log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("fail").toString());
             return "redirect:/";
         }
+    }
+
+
+    @GetMapping("login")
+    public @ResponseBody String login(Authentication authentication,
+            @AuthenticationPrincipal PrincipalDetails userDetails){
+        log.info("login authentication ----------");
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+
+        log.info("principal : " + principalDetails.getMemberE());
+        log.info("userDetails : " + userDetails.getMemberE());
+        return "userDetails 세션 정보 확인하기";
+    }
+
+    @GetMapping("google")
+    public @ResponseBody String googlesignin(Authentication authentication,
+            @AuthenticationPrincipal OAuth2User oAuth2Users){
+        log.info("google authentication ----------");
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+
+        log.info("principal : " + oAuth2User.getAttributes());
+        log.info("oauth2User : " + oAuth2Users.getAttributes());
+        return "OAuth 세션 정보 확인하기";
+
     }
 
     @PostMapping("test")

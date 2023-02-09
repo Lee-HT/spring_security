@@ -47,7 +47,7 @@ public class SecurityConfig {
                 // logout
                 .and()
                 .logout()
-                .logoutSuccessUrl("/df/login")
+                .logoutSuccessUrl("/login/login")
 
                 .and()
                 .authorizeHttpRequests(auth -> auth
@@ -61,8 +61,8 @@ public class SecurityConfig {
 
         http.oauth2Login()
                 .loginPage("/login/login")
-//                .defaultSuccessUrl("/")
-//                .failureUrl("/login/login")
+                .defaultSuccessUrl("/")
+                .failureUrl("/login/login")
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService);
 
