@@ -1,6 +1,8 @@
 package com.lagrange.infi.config.oauth;
 
 import com.lagrange.infi.config.auth.PrincipalDetails;
+import com.lagrange.infi.config.oauth.provider.GoogleUserInfo;
+import com.lagrange.infi.config.oauth.provider.OAuth2UserInfo;
 import com.lagrange.infi.data.entity.MemberE;
 import com.lagrange.infi.data.repository.MemberRepository;
 import java.util.Map;
@@ -26,29 +28,48 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        log.info("getClientRegistration : " + userRequest.getClientRegistration());
-        log.info("getAccessToken : " + userRequest.getAccessToken().getTokenValue());
+
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        log.info("getAttributes : " + oAuth2User.getAttributes());
         ClientRegistration clientRegistration = userRequest.getClientRegistration();
         Map<String, Object> attributes = oAuth2User.getAttributes();
+        Object accessToken = userRequest.getAccessToken().getTokenValue();
 
-        String provider = clientRegistration.getClientId();
-        String providerId = attributes.get("sub").toString();
-        String email = attributes.get("email").toString();
-        String password = passwordEncoder.encode(clientRegistration.getClientSecret());
-        String name = attributes.get("name").toString();
+        log.info("getClientRegistration : " + clientRegistration);
+        log.info("getAccessToken : " + accessToken);
+        log.info("getAttributes : " + attributes);
+
+        String registrationId = clientRegistration.getRegistrationId();
+
+
+        OAuth2UserInfo oAuth2UserInfo = null;
+        if(registrationId.equals("google")){
+            log.info("구글 로그인");
+            oAuth2UserInfo = new GoogleUserInfo(attributes);
+
+        }else if(registrationId.equals("google")){
+            log.info("구글 로그인2");
+            oAuth2UserInfo = null;
+
+        }else{
+
+        };
+
+        String provider = oAuth2UserInfo.getProvider();
+        String providerId = oAuth2UserInfo.getProviderID();
+        String email = oAuth2UserInfo.getEmail();
+        String password = passwordEncoder.encode(attributes.get("sub").toString());
+        String name = oAuth2UserInfo.getName();
         String role = "ROLE_USER";
 
         MemberE memberE = memberRepository.findByUserid(name);
         if (memberE == null){
             memberE = MemberE.builder().userid(name).password(password)
                     .email(email).role(role).providerid(providerId).provider(provider).build();
-            log.info(memberE.toString());
+            log.info(memberE.getUserid().toString() + " 님 가입 되셨습니다");
             memberRepository.save(memberE);
         }else{
-            log.info("기존 회원 입니다");
+            log.info(memberE.getUserid().toString() + " 님 기존 회원 입니다");
 
         }
 
