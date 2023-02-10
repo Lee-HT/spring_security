@@ -50,12 +50,12 @@ public class LoginsController {
     }
 
     @PostMapping("update")
-    @Operation(summary = "회원 정보 수정",description = "id, userid, password, email")
-    public String update(@Valid @RequestBody MemberD memberD){
+    @Operation(summary = "회원 정보 수정",description = "id, userid, password, email, new Password")
+    public String update(@Valid @RequestBody MemberD memberD, String newPassword){
         try{
             log.info(ResponseEntity.status(HttpStatus.OK)
                     .body(memberService.update(memberD.getId(),memberD.getUserid(),memberD.getPassword(),
-                            memberD.getEmail())).toString());
+                            memberD.getEmail(),newPassword)).toString());
             return "redirect:/login/login";
         }catch (Exception e) {
             log.info(e.getMessage());

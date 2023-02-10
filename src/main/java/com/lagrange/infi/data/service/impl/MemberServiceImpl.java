@@ -59,18 +59,24 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberD update(Long id, String userid, String password,String email){
-        String encodedPassword = passwordEncoder.encode(password);
-        MemberE memberE = MemberE.builder()
-                .id(id)
-                .userid(userid)
-                .password(encodedPassword)
-                .email(email)
-                .role(user_role)
-                .build();
+    public MemberD update(Long id, String userid, String password,String email,String newPassword){
+        MemberE memberE = memberRepository.findByUserid(userid);
+        String nowPassword = password;
+        if (passwordEncoder.matches(password,memberE.getPassword())){
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            MemberE memberE1 = MemberE.builder()
+                    .id(id)
+                    .userid(userid)
+                    .password(encodedPassword)
+                    .email(email)
+                    .role(user_role)
+                    .build();
+            memberRepository.save(memberE1);
+            nowPassword = newPassword;
+        }else{
 
-        memberRepository.save(memberE);
-        return new MemberD(id,userid,password,email);
+        }
+        return new MemberD(id,userid,nowPassword,email);
     }
 
     @Override

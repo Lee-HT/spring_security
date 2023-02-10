@@ -7,7 +7,7 @@ public interface MemberService {
 
     boolean unregister(String userid,String password);
 
-    MemberD update(Long id, String userid, String password, String email);
+    MemberD update(Long id, String userid, String password, String email, String newPassword);
 
     boolean login(String userid,String password);
 
