@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +25,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @RequestMapping("/logins/")
 @Tag(name = "Member 관리",description = "")
-public class LoginController {
+public class LoginsController {
 
     private MemberService memberService;
 
     @Autowired
-    public LoginController(MemberService memberService){
+    public LoginsController(MemberService memberService){
         this.memberService = memberService;
     }
 
@@ -111,9 +110,9 @@ public class LoginController {
     public @ResponseBody String googlesignin(Authentication authentication,
             @AuthenticationPrincipal OAuth2User oAuth2Users){
         log.info("google authentication ----------");
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
-        log.info("principal : " + oAuth2User.getAttributes());
+        log.info("principal : " + principalDetails.getAttributes());
         log.info("oauth2User : " + oAuth2Users.getAttributes());
         return "OAuth 세션 정보 확인하기";
 

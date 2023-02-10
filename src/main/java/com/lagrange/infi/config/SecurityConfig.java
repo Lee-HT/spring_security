@@ -16,8 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(prePostEnabled = true,securedEnabled = true) //특정 주소 접근시 권한, 인증을 위한 어노테이션
 public class SecurityConfig {
 
-    @Autowired
-    private PrincipalOauth2UserService principalOauth2UserService;
+//    @Autowired
+//    private PrincipalOauth2UserService principalOauth2UserService;
 
     private static final String[] PERMIT_URL_ARRAY = {
             "/v3/api-docs/**",
@@ -62,9 +62,9 @@ public class SecurityConfig {
         http.oauth2Login()
                 .loginPage("/login/login")
                 .defaultSuccessUrl("/")
-                .failureUrl("/login/login")
-                .userInfoEndpoint()
-                .userService(principalOauth2UserService);
+                .failureUrl("/login/login");
+//                .userInfoEndpoint()
+//                .userService(principalOauth2UserService);
 
 
         return http.build();

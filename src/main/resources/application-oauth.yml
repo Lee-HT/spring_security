@@ -13,3 +13,6 @@ spring:
               - profile
             #redirectUri 주소 변경
             RedirectUri: http://localhost:7040/login/oauth2/code/google
+          github:
+            client-id: default
+            client-secret: default

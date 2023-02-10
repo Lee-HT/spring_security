@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @Data
+//OAuth2User와 UserDetails를 동시에 사용하기 위함
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private MemberE memberE;

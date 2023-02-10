@@ -1,5 +1,6 @@
 package com.lagrange.infi.config.oauth;
 
+import com.lagrange.infi.config.auth.PrincipalDetails;
 import com.lagrange.infi.data.entity.MemberE;
 import com.lagrange.infi.data.repository.MemberRepository;
 import java.util.Map;
@@ -20,8 +21,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     @Autowired
     private MemberRepository memberRepository;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -36,16 +37,21 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String provider = clientRegistration.getClientId();
         String providerId = attributes.get("sub").toString();
         String email = attributes.get("email").toString();
-//        String password = passwordEncoder.encode(clientRegistration.getClientSecret());
+        String password = passwordEncoder.encode(clientRegistration.getClientSecret());
         String name = attributes.get("name").toString();
         String role = "ROLE_USER";
 
-//        MemberE memberE = memberRepository.findByUserid(name);
-//        if (memberE == null){
-//            memberRepository.save(MemberE.builder().userid(name).password(password)
-//                    .email(email).role(role).providerid(providerId).provider(provider).build());
-//        }
+        MemberE memberE = memberRepository.findByUserid(name);
+        if (memberE == null){
+            memberE = MemberE.builder().userid(name).password(password)
+                    .email(email).role(role).providerid(providerId).provider(provider).build();
+            log.info(memberE.toString());
+            memberRepository.save(memberE);
+        }else{
+            log.info("기존 회원 입니다");
 
-        return oAuth2User;
+        }
+
+        return new PrincipalDetails(memberE,oAuth2User.getAttributes());
     }
 }
