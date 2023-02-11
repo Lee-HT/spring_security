@@ -7,11 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Builder
@@ -20,8 +16,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Table(name = "member")
-public class
-MemberE extends createdE{
+public class MemberE extends createdE{
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -44,5 +39,9 @@ MemberE extends createdE{
 
     @Column(nullable = true)
     private String providerid;
+
+    public void updateInfo(String password){
+        this.password = password;
+    }
 
 }

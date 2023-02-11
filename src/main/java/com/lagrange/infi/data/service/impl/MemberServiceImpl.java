@@ -27,25 +27,32 @@ public class MemberServiceImpl implements MemberService {
         this.memberRepository = memberRepository;
     }
 
+    //회원 가입
     @Override
     public MemberD register(String userid,String password,String email){
+        Long id;
         if (memberRepository.existsByUserid(userid)){
-            log.info(userid + "이미 있는 id");
+            log.info(userid + " 이미 있는 id");
+            id = null;
+        }else{
+            String encodedPassword = passwordEncoder.encode(password);
+            log.info(userid + " " + password);
+            MemberE memberE = MemberE.builder()
+                    .userid(userid)
+                    .password(encodedPassword)
+                    .email(email)
+                    .role(user_role)
+                    .build();
+
+            memberRepository.save(memberE);
+            id = memberE.getId();
         }
 
-        String encodedPassword = passwordEncoder.encode(password);
-        log.info(userid + " " + password);
-        MemberE memberE = MemberE.builder()
-                .userid(userid)
-                .password(encodedPassword)
-                .email(email)
-                .role(user_role)
-                .build();
 
-        memberRepository.save(memberE);
-        return new MemberD(memberE.getId(),userid,password,email);
+        return new MemberD(id,userid,password,email);
     }
 
+    //회원 탈퇴
     @Override
     public boolean unregister(String userid,String password){
         MemberE memberE = memberRepository.findByUserid(userid);
@@ -58,27 +65,28 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+    //회원 정보 수정
     @Override
     public MemberD update(Long id, String userid, String password,String email,String newPassword){
         MemberE memberE = memberRepository.findByUserid(userid);
         String nowPassword = password;
         if (passwordEncoder.matches(password,memberE.getPassword())){
             String encodedPassword = passwordEncoder.encode(newPassword);
-            MemberE memberE1 = MemberE.builder()
-                    .id(id)
-                    .userid(userid)
-                    .password(encodedPassword)
-                    .email(email)
-                    .role(user_role)
-                    .build();
-            memberRepository.save(memberE1);
             nowPassword = newPassword;
-        }else{
 
+            //Entity 값 변경
+            memberE.updateInfo(encodedPassword);
+            memberRepository.save(memberE); //나중에 dirty checking 적용 해보기
+
+
+            log.info("password change");
+        }else{
+            log.info("change fail");
         }
         return new MemberD(id,userid,nowPassword,email);
     }
 
+    //로그인
     @Override
     public boolean login(String userid,String password){
         if (passwordEncoder.matches(password,memberRepository.findByUserid(userid).getPassword())) {
@@ -87,6 +95,7 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+    //해당 id 조회
     @Override
     public MemberD getId(Long id){
         MemberE memberE = memberRepository.findByid(id);
