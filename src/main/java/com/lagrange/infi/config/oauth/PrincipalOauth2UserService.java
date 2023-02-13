@@ -59,7 +59,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String providerId = oAuth2UserInfo.getProviderID();
         String email = oAuth2UserInfo.getEmail();
         String password = passwordEncoder.encode(attributes.get("sub").toString());
-        String name = oAuth2UserInfo.getProvider() + "_"+ oAuth2UserInfo.getProviderID();
+        String name = provider + "_"+ providerId;
         String role = "ROLE_USER";
 
         MemberE memberE = memberRepository.findByUserid(name);
