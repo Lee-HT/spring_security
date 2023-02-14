@@ -18,6 +18,7 @@ target/
 *.iws
 *.iml
 *.ipr
+#oauth client secret git에 저장x
 application-oauth.yml
 
 ### NetBeans ###

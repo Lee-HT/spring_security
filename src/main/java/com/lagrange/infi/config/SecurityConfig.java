@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/**").authenticated()
-                        // ** config엔 ROLE_이 없어야 하고 DB엔 ROLE_이 접두사로 붙어야함
+                        // ** config엔 ROLE_이 없어야 하도록 변경됨 ** DB엔 ROLE_이 붙어야함
                         .requestMatchers("/manager/**").hasAnyRole("MANAGER","ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 //                .requestMatchers(PERMIT_URL_ARRAY).permitAll()
