@@ -2,9 +2,12 @@ package com.lagrange.infi.config.oauth;
 
 import com.lagrange.infi.config.auth.PrincipalDetails;
 import com.lagrange.infi.config.oauth.provider.GoogleUserInfo;
+import com.lagrange.infi.config.oauth.provider.NaverUserInfo;
 import com.lagrange.infi.config.oauth.provider.OAuth2UserInfo;
 import com.lagrange.infi.data.entity.MemberE;
 import com.lagrange.infi.data.repository.MemberRepository;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +50,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             log.info("구글 로그인");
             oAuth2UserInfo = new GoogleUserInfo(attributes);
 
-        }else if(registrationId.equals("google")){
-            log.info("구글 로그인2");
-            oAuth2UserInfo = null;
+        }else if(registrationId.equals("naver")){
+            log.info("네이버 로그인");
+//            log.info(attributes.get("response").getClass().getName());
+            oAuth2UserInfo = new NaverUserInfo((LinkedHashMap<String, Object>) attributes.get("response"));
 
         }else{
 
@@ -58,7 +62,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderID();
         String email = oAuth2UserInfo.getEmail();
-        String password = passwordEncoder.encode(attributes.get("sub").toString());
+        String password = passwordEncoder.encode(providerId);
         String name = provider + "_"+ providerId;
         String role = "ROLE_USER";
 
