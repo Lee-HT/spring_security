@@ -7,9 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+@CrossOrigin
 @Slf4j
 @Controller
 @RequestMapping(value = "/login/")
@@ -31,6 +34,11 @@ public class LoginViewController
     @GetMapping("register")
     public String register(){
         return "register";
+    }
+
+    @GetMapping("home")
+    public @ResponseBody String home(){
+        return "<h1>home</h1>";
     }
 
 }

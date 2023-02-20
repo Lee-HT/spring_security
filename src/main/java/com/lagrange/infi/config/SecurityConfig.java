@@ -1,20 +1,27 @@
 package com.lagrange.infi.config;
 
 import com.lagrange.infi.config.oauth.PrincipalOauth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true,securedEnabled = true) //특정 주소 접근시 권한, 인증을 위한 어노테이션
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CorsFilter corsFilter;
+
 
 //    @Autowired
 //    private PrincipalOauth2UserService principalOauth2UserService;
@@ -35,6 +42,10 @@ public class SecurityConfig {
         http.httpBasic().disable();
         http.cors().disable();
         http.csrf().disable();
+
+        //security 세션 생성 x 기존 것도 사용 x
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilter(corsFilter); //@CrossOrigin(인증 x) , security 필터에 등록 인증
 
         http.formLogin()
                 // custom login page

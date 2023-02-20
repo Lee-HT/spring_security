@@ -13,7 +13,8 @@ server:
 
 spring:
   profiles:
-    include: oauth
+    include:
+      - oauth
   datasource:
     url: jdbc:mysql://localhost:5281/infid?characterEncoding=utf8&ServerTimezone=UTC
 #    username: root

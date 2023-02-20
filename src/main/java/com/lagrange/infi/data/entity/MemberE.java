@@ -7,6 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import lombok.*;
 
 @Entity
@@ -42,6 +45,13 @@ public class MemberE extends createdE{
 
     public void updateInfo(String password){
         this.password = password;
+    }
+
+    public List<String> getRoleList(){
+        if(this.role.length() > 0){
+            return Arrays.asList(this.role.split(","));
+        }
+        return new ArrayList<>();
     }
 
 }
