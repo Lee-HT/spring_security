@@ -1,6 +1,7 @@
 package com.lagrange.infi.config;
 
 import com.lagrange.infi.config.oauth.PrincipalOauth2UserService;
+import com.lagrange.infi.filter.Myfilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -40,8 +43,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
         http.httpBasic().disable();
-        http.cors().disable();
+//        http.cors().disable();
         http.csrf().disable();
+
+        http.addFilterBefore(new Myfilter(), SecurityContextPersistenceFilter.class);
 
         //security 세션 생성 x 기존 것도 사용 x
 //        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
