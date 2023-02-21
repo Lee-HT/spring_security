@@ -52,6 +52,7 @@ public class SecurityConfig {
 //        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilter(corsFilter); //@CrossOrigin(인증 x) , security 필터에 등록 인증
 
+//        http.formLogin().disable();
         http.formLogin()
                 // custom login page
                 .loginPage("/login/login")
