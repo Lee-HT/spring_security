@@ -71,7 +71,7 @@ public class LoginsController {
         try{
             log.info(ResponseEntity.status(HttpStatus.OK)
                     .body(memberService.login(userid,password)).toString());
-            return "redirect:/df/login";
+            return "redirect:/login/login";
         } catch (Exception e) {
             log.error(e.getMessage());
             log.info(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -106,10 +106,10 @@ public class LoginsController {
         return "userDetails 세션 정보 확인하기";
     }
 
-    @GetMapping("google")
-    public @ResponseBody String googlesignin(Authentication authentication,
+    @GetMapping("oauth")
+    public @ResponseBody String oauth2signin(Authentication authentication,
             @AuthenticationPrincipal OAuth2User oAuth2Users){
-        log.info("google authentication ----------");
+        log.info("oauth2 authentication ----------");
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
         log.info("principal : " + principalDetails.getAttributes());

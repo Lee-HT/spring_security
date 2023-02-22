@@ -10,14 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Roles {
-    private String role;
+    private List<String> role;
 
     public List<String> getRoles(){
-        return Arrays.asList(this.role.split(","));
-    }
-
-    public String getRole(){
-        return role;
+        return this.role;
     }
 
 

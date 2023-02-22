@@ -15,7 +15,7 @@ public class SecurityRoleController {
 
     @GetMapping("user")
     public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails){
-        log.info("principalDetails : "+principalDetails.getMemberE());
+        log.info("user principalDetails : "+principalDetails.getMemberE());
         return "user";
     }
 
