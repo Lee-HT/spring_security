@@ -17,12 +17,12 @@ public class FilterConfig {
 //        return bean;
 //    }
 
-    @Bean
-    public FilterRegistrationBean<Myfilter2> filter2(){
-        FilterRegistrationBean<Myfilter2> bean = new FilterRegistrationBean<>(new Myfilter2());
-        bean.addUrlPatterns("/*");
-        bean.setOrder(1); //낮은 번호가 필터 중에서 가장 먼저 실행됨
-        return bean;
-    }
+//    @Bean
+//    public FilterRegistrationBean<Myfilter2> filter2(){
+//        FilterRegistrationBean<Myfilter2> bean = new FilterRegistrationBean<>(new Myfilter2());
+//        bean.addUrlPatterns("/*");
+//        bean.setOrder(1); //낮은 번호가 필터 중에서 가장 먼저 실행됨
+//        return bean;
+//    }
 
 }

@@ -95,6 +95,18 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+    @Override
+    public void jwtlogin(MemberD memberD){
+        MemberE jwtMember = MemberE.builder()
+                .userid(memberD.getUserid())
+                .password(passwordEncoder.encode(memberD.getPassword()))
+                .email(memberD.getEmail())
+                .role("ROLE_USER")
+                .build();
+
+        memberRepository.save(jwtMember);
+    }
+
     //해당 id 조회
     @Override
     public MemberD getId(Long id){

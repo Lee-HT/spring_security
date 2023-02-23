@@ -1,6 +1,7 @@
 package com.lagrange.infi.controller;
 
 import com.lagrange.infi.config.auth.PrincipalDetails;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @Controller
 @RequestMapping("/")
+@Tag(name="Role view",description = "")
 public class SecurityRoleController {
 
     @GetMapping("user")

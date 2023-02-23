@@ -2,6 +2,7 @@ package com.lagrange.infi.controller;
 
 import com.lagrange.infi.config.auth.PrincipalDetails;
 import com.lagrange.infi.data.dto.MemberD;
+import com.lagrange.infi.data.entity.MemberE;
 import com.lagrange.infi.data.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -96,6 +99,7 @@ public class LoginsController {
 
 
     @GetMapping("login")
+    @Operation(summary = "principalDetails 확인")
     public @ResponseBody String login(Authentication authentication,
             @AuthenticationPrincipal PrincipalDetails userDetails){
         log.info("login authentication ----------");
@@ -116,6 +120,14 @@ public class LoginsController {
         log.info("oauth2User : " + oAuth2Users.getAttributes());
         return "OAuth 세션 정보 확인하기";
 
+    }
+
+    @PostMapping("jwt")
+    @Operation(summary = "jwt login",description = "")
+    public String jwtsignin(@Valid @RequestBody MemberD memberD){
+        memberService.jwtlogin(memberD);
+
+        return "redirect:/user";
     }
 
     @PostMapping("test")

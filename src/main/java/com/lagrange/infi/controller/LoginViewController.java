@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@CrossOrigin
 @Slf4j
 @Controller
 @RequestMapping(value = "/login/")
-@Tag(name = "LoginView Controller", description = "테스트용")
+@Tag(name = "LoginView Controller", description = "")
 public class LoginViewController {
 
     @GetMapping("test")
