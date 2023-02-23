@@ -1,9 +1,10 @@
 package com.lagrange.infi.config;
 
+
 import com.lagrange.infi.config.jwt.JwtAuthenticationFilter;
 import com.lagrange.infi.filter.Myfilter;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.parser.HttpParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,11 +12,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -23,7 +24,8 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CorsFilter corsFilter;
+    @Autowired
+    private final CorsConfig corsConfig;
 
 
 //    @Autowired
@@ -49,8 +51,10 @@ public class SecurityConfig {
         http.addFilterBefore(new Myfilter(), SecurityContextPersistenceFilter.class);
 
         //security 세션 생성 x 기존 것도 사용 x
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.addFilter(corsFilter); //@CrossOrigin(인증 x) , security 필터에 등록 인증
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.addFilter(corsConfig.corsFilter()); //@CrossOrigin(인증 x) , security 필터에 등록 인증
+
+        http.apply(new MyCustomDsl());
 
 //        http.formLogin().disable();
         http.formLogin()
@@ -90,7 +94,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity http) throws Exception{
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-            http.addFilter(corsFilter);
+            http.addFilter(corsConfig.corsFilter());
             http.addFilter(new JwtAuthenticationFilter(authenticationManager));
         }
     }
