@@ -2,6 +2,8 @@ package com.lagrange.infi.config;
 
 
 import com.lagrange.infi.config.jwt.JwtAuthenticationFilter;
+import com.lagrange.infi.config.jwt.JwtAuthorizationFilter;
+import com.lagrange.infi.data.repository.MemberRepository;
 import com.lagrange.infi.filter.Myfilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class SecurityConfig {
 
     @Autowired
     private final CorsConfig corsConfig;
+    @Autowired
+    private final MemberRepository memberRepository;
 
 
 //    @Autowired
@@ -56,34 +60,37 @@ public class SecurityConfig {
 
         http.apply(new MyCustomDsl());
 
-//        http.formLogin().disable();
-        http.formLogin()
-                // custom login page
-                .loginPage("/login/login")
-                //username parameter 재지정
-                .usernameParameter("userid")
-                .loginProcessingUrl("/logins/signin")
-                .defaultSuccessUrl("/user")
-
-                // logout
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login/login")
-
-                .and()
-                .authorizeHttpRequests(auth -> auth
+        // authorize
+        http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/**").authenticated()
                         // ** config엔 ROLE_이 없어야 하도록 변경됨 ** DB엔 ROLE_이 붙어야함
                         .requestMatchers("/manager/**").hasAnyRole("MANAGER","ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 //                .requestMatchers(PERMIT_URL_ARRAY).permitAll()
-                        .anyRequest().permitAll()
-                );
+                        .anyRequest().permitAll());
 
-        http.oauth2Login()
-                .loginPage("/login/login")
-                .defaultSuccessUrl("/logins/login")
-                .failureUrl("/login/login");
+        // formlogin
+//        http.formLogin().disable();
+
+//        http.formLogin()
+//                // custom login page
+//                .loginPage("/login/login")
+//                //username parameter 재지정
+//                .usernameParameter("userid")
+//                .loginProcessingUrl("/logins/signin")
+//                .defaultSuccessUrl("/user")
+//
+//                // logout
+//                .and()
+//                .logout()
+//                .logoutSuccessUrl("/login/login");
+//
+//        // oauth2
+//        http.oauth2Login()
+//                .loginPage("/login/login")
+//                .defaultSuccessUrl("/logins/login")
+//                .failureUrl("/login/login");
+
 //                .userInfoEndpoint()
 //                .userService(principalOauth2UserService);
 
@@ -96,6 +103,7 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http.addFilter(corsConfig.corsFilter());
             http.addFilter(new JwtAuthenticationFilter(authenticationManager));
+            http.addFilter(new JwtAuthorizationFilter(authenticationManager,memberRepository));
         }
     }
 }

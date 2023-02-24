@@ -33,7 +33,8 @@ public class Myfilter implements Filter {
                 filterChain.doFilter(request,response);
             }else{
                 PrintWriter outPw = response.getWriter();
-                outPw.println("인증 X");
+                outPw.println("Authorization != lia");
+                filterChain.doFilter(request,response);
             }
         }else{
             filterChain.doFilter(request,response);
