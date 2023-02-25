@@ -22,7 +22,7 @@ public class Myfilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         log.info("필터1_requestURL : " + request.getRequestURL());
 
-        request.setCharacterEncoding("UTF-8");
+//        request.setCharacterEncoding("UTF-8");
 
         if(request.getMethod().equals("POST")){
             log.info(request.getMethod());
