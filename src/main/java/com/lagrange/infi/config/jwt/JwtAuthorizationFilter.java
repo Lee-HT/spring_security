@@ -44,7 +44,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         String jwtToken = jwtHeader.replace("Bearer ", "");
 
-        String userid = JWT.require(Algorithm.HMAC512(secret)).build().verify(jwtToken).getClaim("userid").asString();
+        String userid = JWT.require(Algorithm.HMAC512(jwtProperties.SecretKey)).build().verify(jwtToken).getClaim("userid").asString();
 
         if(userid != null){
             MemberE memberE = memberRepository.findByUserid(userid);
