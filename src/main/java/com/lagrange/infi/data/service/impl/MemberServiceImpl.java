@@ -76,7 +76,7 @@ public class MemberServiceImpl implements MemberService {
 
             //Entity 값 변경
             memberE.updateInfo(encodedPassword);
-            memberRepository.save(memberE); //나중에 dirty checking 적용 해보기
+            memberRepository.save(memberE); // 나중에 dirty checking 공부
 
 
             log.info("password change");
@@ -97,14 +97,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void jwtlogin(MemberD memberD){
-        MemberE jwtMember = MemberE.builder()
-                .userid(memberD.getUserid())
-                .password(passwordEncoder.encode(memberD.getPassword()))
-                .email(memberD.getEmail())
-                .role("ROLE_USER")
-                .build();
+        if(memberRepository.existsByUserid(memberD.getUserid())){
+            log.info("이미 있는 userid");
+        }else{
+            MemberE jwtMember = MemberE.builder()
+                    .userid(memberD.getUserid())
+                    .password(passwordEncoder.encode(memberD.getPassword()))
+                    .email(memberD.getEmail())
+                    .role("ROLE_USER")
+                    .build();
 
-        memberRepository.save(jwtMember);
+            memberRepository.save(jwtMember);
+        }
     }
 
     //해당 id 조회

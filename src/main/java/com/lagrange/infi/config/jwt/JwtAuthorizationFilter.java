@@ -39,6 +39,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         if(jwtHeader == null || !jwtHeader.startsWith("Bearer")){
             chain.doFilter(request,response);
+            return;
         }
 
         String jwtToken = jwtHeader.replace("Bearer ", "");
