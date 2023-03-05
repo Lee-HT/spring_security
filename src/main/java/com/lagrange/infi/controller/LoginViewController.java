@@ -27,11 +27,13 @@ public class LoginViewController {
     }
 
     @GetMapping("login")
+    @Operation(summary = "login",description = "view")
     public String login() {
         return "login";
     }
 
     @GetMapping("register")
+    @Operation(summary = "login",description = "view")
     public String register() {
         return "register";
     }
